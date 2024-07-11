@@ -1,0 +1,55 @@
+@baseUrl = http://localhost:8080
+
+### Health
+GET {{baseUrl}}/api/v1/health
+
+### List all submitted emails for a given customer.
+
+GET {{baseUrl}}/api/v1/customers/3f70c6f1-e4e1-40e0-a1d5-32f4a539b7f4/emails
+
+### Get information for a particular email.
+GET {{baseUrl}}/api/v1/customers/3f70c6f1-e4e1-40e0-a1d5-32f4a539b7f4/emails/3d7d8d6b-adeb-420d-afc3-9a98c380779f
+
+### Post a new email scan request.
+
+POST {{baseUrl}}/api/v1/customers/3f70c6f1-e4e1-40e0-a1d5-32f4a539b7f4/emails
+Content-Type: application/json
+
+{
+  "metadata" : {
+    "spamhammer" : "1|14"
+  },
+  "contents" : {
+    "subject" : "Important information about your account.",
+    "from" : "support@uq.edu.au",
+    "to" : "no-reply@uq.edu.au",
+    "body" : "Dear customer,\nWe have noticed some suspicious activity on your account. Please click [here](https://scam-check.uq.edu.au?userId=uqehugh3) to reset your password."
+  }
+}
+
+### Get malicious senders of emails.
+GET {{baseUrl}}/api/v1/customers/3f70c6f1-e4e1-40e0-a1d5-32f4a539b7f4/reports/actors
+
+### Get the domains that appeared in malicious emails.
+
+GET {{baseUrl}}/api/v1/customers/3f70c6f1-e4e1-40e0-a1d5-32f4a539b7f4/reports/domains
+
+### Get users who have received malicious emails.
+GET {{baseUrl}}/api/v1/customers/3f70c6f1-e4e1-40e0-a1d5-32f4a539b7f4/reports/recipients
+
+#########
+curl -X POST \
+ -H "Accept: application/json" \
+ -H "Content-Type: application/json" \
+ "http://localhost:8080/api/v1/customers/{customer_id}/emails" \
+ -d '{
+  "metadata" : {
+    "spamhammer" : "1|14"
+  },
+  "contents" : {
+    "subject" : "Important information about your account.",
+    "from" : "support@uq.edu.au",
+    "to" : "no-reply@uq.edu.au",
+    "body" : "Dear customer,\nWe have noticed some suspicious activity on your account. Please click [here](https://scam-check.uq.edu.au?userId=uqehugh3) to reset your password."
+  }
+}'
